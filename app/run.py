@@ -101,7 +101,7 @@ def index():
                     'title': "%"
                 },
                 'xaxis': {
-                    'title': "Tags"
+                    'title': "Tags",
                     'tickangle': -45
                 }
             }
