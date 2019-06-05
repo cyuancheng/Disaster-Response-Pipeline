@@ -3,9 +3,6 @@ import plotly
 import pandas as pd
 import re
 
-
-import re
-
 import nltk
 from nltk.tokenize import word_tokenize
 from nltk.stem import WordNetLemmatizer
@@ -67,15 +64,6 @@ def index():
     counts_percentage = df_copy.drop(['id', 'message', 'original', 'genre'], axis = 1).sum()/len(df)
     counts_percentage = counts_percentage.sort_values(ascending = False)
     df_copy_cols = df_copy.columns
-    #counts = []
-    #for col in df_copy:
-#        counts.append((df_copy[col]==1).sum())
-
-    # Get occurence of each type in percentage
-#    counts_percentage = []
-#    for col in df_copy:
-#        counts_percentage.append((df_copy[col]==1).sum()/df.size * 100)
-
 
     # create visuals
     # TODO: Below is an example - modify to create your own visuals
@@ -98,23 +86,7 @@ def index():
                 }
             }
         },
-    #    {
-        #    'data': [
-    #            Bar(
-    #                x=df_copy_cols,
-    #                y=counts
-    #            )
-    #        ],
-        #    'layout': {
-    #            'title': 'Distribution of Tags',
-#                'yaxis': {
-#                    'title': "Count"
-#                },
-#                'xaxis': {
-#                    'title': "Tags"
-#                }
-#            }
-    #    },
+
             {
             'data': [
                 Bar(
@@ -130,10 +102,12 @@ def index():
                 },
                 'xaxis': {
                     'title': "Tags"
+                    'tickangle': -45
                 }
             }
         }
     ]
+
 
     # encode plotly graphs in JSON
     ids = ["graph-{}".format(i) for i, _ in enumerate(graphs)]
