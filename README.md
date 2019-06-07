@@ -112,13 +112,13 @@ The screen shots of the web app are below:
 
 **_Screenshot 1_**
 
-![master](app/Disasters.png)
+![screenshot1](app/img_webapp_1.png)
 
 
 
 **_Screenshot 2_**
 
-![results](app/Disasters_1.png)
+![screenshot2](app/img_webapp_2.png)
 
 
 <a id='files'></a>
