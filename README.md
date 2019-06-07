@@ -22,32 +22,36 @@
 
 ## 1. Project Overview
 
-In this project, I used data engineering skills to (1) analyze real natural disaster data from <a href="https://www.figure-eight.com/" target="_blank">Figure Eight</a> , (2) create pipelines for ETL and machine learning model that classifying disaster messages sent during a natural disaster, and (3) create a web app where a relief agent can input a new message and get classification results in several categories in a real time.  
+In this project, I used data engineering skills to: 
 
-The goal is to direct each message to the appropriate disaster relief agency who can provide the quickest assistance.
+-  analyze real natural disaster data from <a href="https://www.figure-eight.com/" target="_blank">Figure Eight</a> , 
+-  create pipelines for ETL and machine learning model that classifying disaster messages sent during a natural disaster, and 
+-  create a web app where a relief agent can input a new message and get classification results in several categories in a real time.  
+
+The goal is to direct each emergency message to the appropriate disaster relief agency who can provide immediate assistance.
 
 
 ### 1.1. ETL Pipeline
 
-File _data/process_data.py_ contains ETL pipeline that:
+ETL pipeline In *data/process_data.py* to:
 
-- Loads the `messages` and `categories` dataset
-- Merges the two datasets
-- Cleans the data
-- Stores it in a **SQLite database**
+- Load the `messages` and `categories` dataset
+- Merge the two datasets
+- Clean the data
+- Store it in a **SQLite database**
 
 <a id='ml_pipeline'></a>
 
 ### 1.2. ML Pipeline
 
-File _models/train_classifier.py_ contains machine learning pipeline that:
+ML pipeline in *models/train_classifier.py* to:
 
-- Loads data from the **SQLite database**
-- Splits the data into training and testing sets
-- Builds a text processing and optimized machine learning pipeline
-- Trains and tunes a model using GridSearchCV
-- Outputs result on the test set
-- Exports the final model as a pickle file
+- Load data from the **SQLite database**
+- Split the data into training and testing sets
+- Build a text processing and optimized machine learning pipeline
+- Train and tunes a model using GridSearchCV
+- Output result on the test set
+- Export the final model as a pickle file
 
 <a id='flask'></a>
 
@@ -55,18 +59,19 @@ File _models/train_classifier.py_ contains machine learning pipeline that:
 
 <a id='eg'></a>
 
-Running [this command](#com) **from app directory** will start the web app where users can enter their query, i.e., a request message sent during a natural disaster, e.g. _"Please, we need tents and water. We are in Silo, Thank you!"_.
+Running [run.py](#com) **from app directory** will start the web app where users can enter their message queries during a natural disaster, e.g. *"Is the Hurricane over or is it not over"*.
 
-What the app will do is that it will classify the text message into categories so that appropriate relief agency can be reached out for help.
+This app will classify the text message into categories, so that appropriate relief agency can be reached out for help.
+
 <a id='run'></a>
 
-## 2. Project Details
+## 2. Project Description
 
-There are three steps to get up and running with the web app if you want to start from ETL process.
+Three steps for this project:
 
 <a id='cleaning'></a>
 
-### 3.1. Data Cleaning
+### 3.1. Data Processing (ETL)
 
 **Go to the project directory** and the run the following command:
 
@@ -74,17 +79,12 @@ There are three steps to get up and running with the web app if you want to star
 python data/process_data.py data/disaster_messages.csv data/disaster_categories.csv data/DisasterResponse.db
 ```
 
-The first two arguments are input data and the third argument is the SQLite Database in which we want to save the cleaned data. The ETL pipeline is in _process_data.py_.
+The first two arguments are input data and the third argument is the SQLite Database where the cleaned data is saved. The ETL pipeline is wrote in *process_data.py*.
 
-_DisasterResponse.db_ already exists in _data_ folder but the above command will still run and replace the file with same information. 
-
-**_Screenshot 3_**
-
-![process_data](img/process_data.jpg)
 
 <a id='training'></a>
 
-### 2.2. Training Classifier
+### 2.2. Train Classifier (ML)
 
 After the data cleaning process, run this command **from the project directory**:
 
@@ -92,29 +92,14 @@ After the data cleaning process, run this command **from the project directory**
 python models/train_classifier.py data/DisasterResponse.db models/classifier.pkl
 ```
 
-This will use cleaned data to train the model, improve the model with grid search and saved the model to a pickle file (_classifer.pkl_).
+This will use cleaned data to train the model, optimize the hyperparameters of the model with grid search and saved the model to a pickle file (*classifer.pkl*).
 
-_classifier.pkl_ already exists but the above command will still run and replace the file will same information.
-
-_**Screenshot 4**_
-
-![train_classifier_1](img/train_classifier_1.jpg)
-
-It took me around **4 minutes** to train the classifier with grid search.
-
-When the models is saved, it will look something like this.
-
-<a id='acc'></a>
-
-**_Screenshot 5_**
-
-![train_classifier_2.jpg](img/train_classifier_2.jpg)
 
 <a id='starting'></a>
 
-### 2.3. Starting the web app
+### 2.3. Web app
 
-Now that we have cleaned the data and trained our model. Now it's time to see the prediction in a user friendly way.
+Now we use the Flask web app to predict the classification from the input messages.
 
 **Go the app directory** and run the following command:
 
@@ -124,17 +109,7 @@ Now that we have cleaned the data and trained our model. Now it's time to see th
 python run.py
 ```
 
-This will start the web app and will direct you to a URL where you can enter messages and get classification results for it.
-
-**_Screenshot 6_**
-
-![web_app](img/web_app.jpg)
-
-<a id='conclusion'></a>
-
-
 The screen shots of the web app are below:
-
 
 **_Screenshot 1_**
 
@@ -146,17 +121,12 @@ The screen shots of the web app are below:
 
 ![results](app/Disasters_1.png)
 
+<a id='conclusion'></a>
+
 ## 3. Conclusion
 
 Some information about training data set as seen on the main page of the web app.
 
-**_Screenshot 7_**
-
-![genre](img/genre.jpg)
-
-**_Screenshot 8_**
-
-![dist](img/dist.jpg)
 
 As we can see the data is highly imbalanced. Though the accuracy metric is [high](#acc) (you will see the exact value after the model is trained by grid search, it is ~0.94), it has a poor value for recall (~0.6). So, take appropriate measures when using this model for decision-making process at a larger scale or in a production environment.
 
@@ -167,20 +137,23 @@ As we can see the data is highly imbalanced. Though the accuracy metric is [high
 <pre>
 .
 ├── app
-│   ├── run.py------------------------# FLASK FILE THAT RUNS APP
-│   ├── static
-│   │   └── favicon.ico---------------# FAVICON FOR THE WEB APP
+│   ├── run.py------------------------# flask file to run app
+│   ├── imag_webapp_1		# screenshot of web app
+│   ├── imag_webapp_2 		# screenshot of web app
 │   └── templates
-│       ├── go.html-------------------# CLASSIFICATION RESULT PAGE OF WEB APP
-│       └── master.html---------------# MAIN PAGE OF WEB APP
+│       ├── go.html-------------------# classification result page of web app
+│       └── master.html---------------# main page of web app
 ├── data
-│   ├── DisasterResponse.db-----------# DATABASE TO SAVE CLEANED DATA TO
-│   ├── disaster_categories.csv-------# DATA TO PROCESS
-│   ├── disaster_messages.csv---------# DATA TO PROCESS
-│   └── process_data.py---------------# PERFORMS ETL PROCESS
-├── img-------------------------------# PLOTS FOR USE IN README AND THE WEB APP
+│   ├── DisasterResponse.db-----------# database to save cleaned data
+│   ├── disaster_categories.csv-------# raw data to process
+│   ├── disaster_messages.csv---------# raw data to process
+│   └── process_data.py---------------# perform ETL pipline
 ├── models
-│   └── train_classifier.py-----------# PERFORMS CLASSIFICATION TASK
+│   ├── train_classifier.py-----------# perform classification pipeline
+│   └── classifier.pkl		-----------# classifier result
+├── notebook
+│   ├── ETL Pipeline Preparation.ipynb----------# Jupyter notebook for ETL 
+│   └── ML Pipeline Preparation.ipynb-	-----------# Jupyter notebook for ML
 
 </pre>
 
